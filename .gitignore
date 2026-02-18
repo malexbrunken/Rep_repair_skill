@@ -1,0 +1,14 @@
+# Hugo
+public/
+resources/
+.hugo_build.lock
+
+# Cloudflare
+.wrangler/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store

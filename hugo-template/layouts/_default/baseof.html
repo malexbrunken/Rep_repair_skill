@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  
+  {{- if .Description }}
+  <meta name="description" content="{{ .Description }}">
+  {{- else if .Site.Params.description }}
+  <meta name="description" content="{{ .Site.Params.description }}">
+  {{- end }}
+  
+  <meta name="author" content="{{ .Site.Params.author }}">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ .Permalink }}">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+  <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+  <meta property="og:image" content="{{ .Site.BaseURL }}{{ or .Params.og_image .Site.Params.og_image "images/og-image.jpg" }}">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+  <meta name="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="twitter:image" content="{{ .Site.BaseURL }}{{ or .Params.og_image .Site.Params.og_image "images/og-image.jpg" }}">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <!-- Person Schema - UPDATE FOR EACH CLIENT -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "[CLIENT_NAME]",
+    "url": "[WEBSITE_URL]",
+    "image": "[WEBSITE_URL]/images/headshot.jpg",
+    "jobTitle": "[PROFESSION]",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "[CITY]",
+      "addressRegion": "[STATE]",
+      "addressCountry": "US"
+    },
+    "description": "[CLIENT_NAME] is a [PROFESSION] in [LOCATION]."
+  }
+  </script>
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; }
+    header { border-bottom: 2px solid #1a1a1a; padding-bottom: 20px; margin-bottom: 40px; }
+    nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    nav a { color: #1a1a1a; text-decoration: none; font-weight: 500; }
+    nav a:hover { text-decoration: underline; }
+    h1 { font-size: 2.5em; margin-bottom: 10px; color: #1a1a1a; }
+    h2 { font-size: 1.8em; margin: 30px 0 15px; color: #1a1a1a; }
+    h3 { font-size: 1.3em; margin: 20px 0 10px; }
+    p { margin-bottom: 15px; }
+    ul, ol { margin: 15px 0 15px 25px; }
+    li { margin-bottom: 8px; }
+    a { color: #0066cc; }
+    .hero { background: #f8f9fa; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+    .hero h1 { margin-bottom: 10px; }
+    .subtitle { font-size: 1.3em; color: #666; }
+    .content { font-size: 1.05em; }
+    .content p { margin-bottom: 20px; }
+    img { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; }
+    .quote { background: #f0f0f0; padding: 20px; border-left: 4px solid #1a1a1a; font-style: italic; margin: 20px 0; }
+    footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 0.9em; }
+    .blog-list { list-style: none; }
+    .blog-list li { padding: 20px 0; border-bottom: 1px solid #eee; }
+    .blog-list h3 { margin-bottom: 5px; }
+    .blog-date { color: #666; font-size: 0.9em; }
+    @media (max-width: 600px) { h1 { font-size: 1.8em; } nav { flex-direction: column; gap: 10px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+  </header>
+  
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+  
+  <footer>
+    <p>&copy; {{ now.Format "2006" }} [CLIENT_NAME]. All rights reserved.</p>
+    <p>[LOCATION]</p>
+  </footer>
+</body>
+</html>
