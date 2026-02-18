@@ -46,14 +46,17 @@
 ```
 
 ## Homepage Requirements
-- Minimum: 1,500 words
+- Minimum: **2,000 words** (was 1,500)
 - Must include all primary keywords
-- Person schema with correct details
+- **Multiple images recommended** (at least 2-3: headshot, location, work)
+- Person schema with sameAs (LinkedIn, Twitter)
+- LSI keywords throughout
 
 ## About Page Requirements
-- Minimum: 1,500 words
+- Minimum: **2,000 words** (was 1,500)
 - Full biography
-- Person schema with correct details
+- **Multiple images recommended**
+- Person schema with sameAs
 
 ---
 

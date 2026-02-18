@@ -9,3 +9,5 @@ params:
   keywords: ["[CLIENT_NAME]", "[LOCATION]", "[PROFESSION]"]
   og_image: "/images/og-image.jpg"
   twitter_card: "summary_large_image"
+  linkedin: "https://linkedin.com/in/[CLIENT_SLUG]"
+  twitter: "https://twitter.com/[CLIENT_HANDLE]"
