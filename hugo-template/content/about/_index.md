@@ -3,11 +3,9 @@ title: "About [CLIENT_NAME]"
 description: "Learn more about [CLIENT_NAME], a [PROFESSION] in [LOCATION]."
 ---
 
-![CLIENT_NAME portrait](https://imgen.x.ai/placeholder.jpg)
-
-![CLIENT_NAME in the community](https://imgen.x.ai/placeholder.jpg)
-
-![LANDMARK or location image](https://imgen.x.ai/placeholder.jpg)
+<div class="hero">
+  <img src="/images/headshot.jpg" alt="[CLIENT_NAME] portrait" style="max-width:300px; border-radius:8px; margin-bottom:20px;">
+</div>
 
 ## Who Is [CLIENT_NAME]?
 
@@ -17,13 +15,15 @@ description: "Learn more about [CLIENT_NAME], a [PROFESSION] in [LOCATION]."
 
 ### How It All Started
 
-[Describe their early life, education, and how they got started in their profession. Include relevant details that demonstrate expertise and credibility. This should be 2-3 paragraphs to help reach the 2,000 word target.]
+[Describe their early life, education, and how they got started in their profession. Include relevant details that demonstrate expertise and credibility.]
 
 ### Building Expertise
 
 [Details about skill development, professional growth, and key milestones in their career path.]
 
 ## Community Involvement
+
+![Image of community involvement](https://imgen.x.ai/placeholder.jpg)
 
 ### Local Initiatives
 
@@ -46,9 +46,11 @@ description: "Learn more about [CLIENT_NAME], a [PROFESSION] in [LOCATION]."
 3. **Excellence** - [Description of commitment to quality]
 4. **Relationships** - [Description of how they build lasting relationships with clients]
 
-## The [LOCATION] Difference
+## The [LOCATION] Area
 
-[More about the location - history, character, why it's special. Include details about what makes doing business or living in this area unique. This section should be 3-4 paragraphs.]
+![Image of the location](https://imgen.x.ai/placeholder.jpg)
+
+[More about the location - history, character, why it's special. Include details about what makes doing business or living in this area unique.]
 
 ### Why [LOCATION] Matters
 
