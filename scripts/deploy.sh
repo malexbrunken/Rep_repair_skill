@@ -1,43 +1,51 @@
 #!/bin/bash
-# Deploy script for Hugo sites to Cloudflare Pages
+# SEO Site Deploy Script
+# Usage: ./deploy.sh <site-folder> <cloudflare-project> <domain> <zone-id> <record-id> [api-token]
+# Example: ./deploy.sh site-01-matthew-bovee-com matt-bovee-com matthew-bovee.com 42d1b6b90d15d00382a0b2c63641ae3c 8d0d35b04d469cde10f3a49ce862a4d6
 
-# Usage: ./deploy.sh [site-directory] [project-name]
+SITE_DIR="$1"
+PROJECT="$2"
+DOMAIN="$3"
+ZONE="$4"
+RECORD="$5"
+TOKEN="${6:-$CLOUDFLARE_API_TOKEN}"
 
-SITE_DIR="${1:-.}"
-PROJECT_NAME="${2:-my-project}"
-
-echo "=== Deploying $SITE_DIR to $PROJECT_NAME ==="
-
-# Check for required environment variables
-if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-    echo "Error: CLOUDFLARE_API_TOKEN not set"
+if [ -z "$SITE_DIR" ] || [ -z "$PROJECT" ]; then
+    echo "Usage: $0 <site-folder> <cloudflare-project> <domain> <zone-id> <record-id> [api-token]"
     exit 1
 fi
 
-if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
-    echo "Error: CLOUDFLARE_ACCOUNT_ID not set"
-    exit 1
-fi
-
-# Build the site
-echo "Building Hugo site..."
 cd "$SITE_DIR"
+
+echo "Building site..."
+rm -rf public resources/_gen
 hugo --minify
 
-if [ $? -ne 0 ]; then
-    echo "Error: Hugo build failed"
+echo "Deploying to Cloudflare..."
+export CLOUDFLARE_API_TOKEN="$TOKEN"
+export CLOUDFLARE_ACCOUNT_ID="5a21b4f1865cb68ebe9577c44f060f1b"
+
+DEPLOY_URL=$(npx wrangler pages deploy public --project-name "$PROJECT" 2>&1 | grep -oP 'https://\K[a-f0-9]+\.'"$PROJECT"'.pages.dev')
+
+if [ -z "$DEPLOY_URL" ]; then
+    echo "Failed to get deployment URL"
     exit 1
 fi
 
-# Deploy to Cloudflare
-echo "Deploying to Cloudflare Pages..."
-npx wrangler pages deploy public \
-    --project-name "$PROJECT_NAME" \
-    --commit-dirty=true
+echo "New deployment: https://$DEPLOY_URL"
 
-if [ $? -eq 0 ]; then
-    echo "=== Deployment complete ==="
-else
-    echo "Error: Deployment failed"
-    exit 1
+if [ -n "$ZONE" ] && [ -n "$RECORD" ]; then
+    echo "Updating CNAME for $DOMAIN..."
+    curl -s -X PUT -H "Authorization: Bearer $TOKEN" \
+        -H "Content-Type: application/json" \
+        --data '{"type":"CNAME","name":"'"$DOMAIN"'","content":"'"$DEPLOY_URL"'","proxied":true}' \
+        "https://api.cloudflare.com/client/v4/zones/$ZONE/dns_records/$RECORD" | jq -r '.success'
+    
+    echo "Purging Cloudflare cache..."
+    curl -s -X POST -H "Authorization: Bearer $TOKEN" \
+        -H "Content-Type: application/json" \
+        --data '{"purge_everything":true}' \
+        "https://api.cloudflare.com/client/v4/zones/$ZONE/purge_cache" | jq -r '.success'
+    
+    echo "Done! https://$DOMAIN should update in ~30 seconds"
 fi
